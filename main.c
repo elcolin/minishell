@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:07:25 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/17 17:50:37 by ecolin           ###   ########.fr       */
+/*   Updated: 2022/10/18 12:57:16 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,61 +34,84 @@ t_input	*new_input(char *s)
 	if (!new)
 		return (NULL);
 	new->input = s;
-	new->next = 0;
+	new->next = NULL;
+	return (new);
 }
 
-t_input	*split_to_list(char *s)//ne gere pas l'apparition des quotes
+int n_occurencies(char *s, char c, int n)
+{
+	int	i;
+	int	nb;
+
+	i = 0;
+	nb = 0;
+	while(s[i] && i < n)
+	{
+		if (s[i] == c)
+			nb++;
+		i++;
+	}
+	return (nb);
+}
+
+int	arg(char *s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '"')
+		{
+			j = strchri(&s[i + 1], s[i]);
+			if (j != -1)
+			{
+				s[i] = -1;
+				s[i + j + 1] = -1;
+				i += j;
+			}
+		}
+		else if (s[i] == ' ')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+t_input	*split_to_list(char *s)//gere l'apparition de quote
 {
 	t_input	*head;
 	t_input	*new;
-	int	i;
-	int	j;
-	int	quote;
-	int quote_nb;
+	char	*tmp;
+	int		i;
+	int		j;
 
-	head = NULL;
+	head = 0;
 	i = 0;
-	j = 0;
-	quote = 0;
-	quote_nb = 0;
+	new = 0;
 	while(s[i])
 	{
 		j = 0;
 		while (s[i] == ' ' && s[i])
 			i++;
-		while (((s[i + j] != ' ') || (quote && quote != -1)) && s[i + j])
-		{
-			if ((s[i + j] == '\'' || s[i + j] == '"') && !quote && quote != -1)
-			{
-				quote = s[i + j];
-				quote_nb++;
-			}
-			else if ((s[i + j] == quote) && quote && quote != -1)
-			{
-				quote = 0;
-				quote_nb++;
-			}
-			printf("%d\n", quote);
-			j++;
-			if (!s[i + j] && (quote != -1 && quote) && quote_nb < 2)
-			{
-				j = 0;
-				quote = -1;
-			}
-		}
-		printf("%d\n", quote);
-		quote = 0;
+		j = arg(&s[i]);
 		if (!j)
 			return (head);
-		if (!head)
+		if (j == -1)
+			j = ft_strlen(&s[i]);
+		tmp = ft_strndup(&s[i], j);
+		if (!head && tmp)
 		{
-			head = new_input(ft_strndup(&s[i], j));
+			head = new_input(tmp);
 			new = head;
 		}
-		else
-			new->next = new_input(ft_strndup(&s[i], j));
-		if (new->next)
+		else if (tmp)
+		{
+			new->next = new_input(tmp);
 			new = new->next;
+		}
 		i += j;
 	}
 	return (head);
@@ -98,13 +121,13 @@ t_input	*parsing(char *s)
 {
 	t_input	*parse;
 	
+	add_history(s);
 	parse = split_to_list(s);
 	while (parse)
 	{
 		printf("%s\n", parse->input);
 		parse = parse->next;
 	}
-	add_history(s);
 	free(s);
 	return (parse);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:55:13 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/17 17:45:53 by ecolin           ###   ########.fr       */
+/*   Updated: 2022/10/18 12:46:11 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,25 @@ char	*ft_strndup(const char *s, int n)
 	quote = 0;
 	i = 0;
 	j = 0;
-	if (n == -1)
+	if (n == -1 || n > ft_strlen(s))
 		n = ft_strlen(s);
+	n -= n_occurencies((char *)s, -1, n);
+	if (!n)
+		return (0);
 	cpy = malloc(n + 1);
 	if (!cpy)
 		return (0);
 	while (i < n && s[i + j])
 	{
-		if ((s[i + j] == '\'' || s[i + j] == '"') && !quote)
-		{
-			quote = s[i];
-			j++;
-		}
-		else if (s[i + j] == quote && quote)
-		{
-			quote = 0;
-			j++;
-		}
-		else
+		if (s[i + j] != -1)
 		{
 			cpy[i] = s[i + j];
 			i++;
 		}
+		else
+			j++;
 	}
-	cpy[i] = 0;
+	cpy[n] = '\0';
 	return (cpy);
 }
 

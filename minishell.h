@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:07:37 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/17 17:45:57 by ecolin           ###   ########.fr       */
+/*   Updated: 2022/10/18 12:22:53 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
 char	*ft_strndup(const char *s, int n);
+int n_occurencies(char *s, char c, int n);
 
 #endif
