@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:07:37 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/18 12:22:53 by elise            ###   ########.fr       */
+/*   Updated: 2022/10/19 18:54:34 by ecolin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@
 
 // TO REMOVE !!!
 # include <stdio.h>
+
+
+typedef enum e_enum
+{
+	NO_SEP = 0,
+	PIPE = 1,
+	REDIRECT_STDIN = 2,
+	REDIRECT_STDOUT = 3,
+	CAT = 4,
+	APPEND = 5,
+}	t_enum;
 
 typedef struct s_env
 {
@@ -48,17 +59,13 @@ typedef struct s_root
 	int				stdout;
 }				t_root;
 
-typedef struct s_arg
-{
-	char	*arg;
-	struct s_arg *next;
-} t_arg;
-
-
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
 char	*ft_strndup(const char *s, int n);
-int n_occurencies(char *s, char c, int n);
+int		n_occurencies(char *s, char c, int n);
+int		strchri(char *s, int c);
+t_input	*parsing(char *s);
+int		ft_isascii(int c);
 
 #endif
