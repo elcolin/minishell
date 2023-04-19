@@ -6,22 +6,26 @@
 /*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:55:13 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/19 19:13:12 by ecolin           ###   ########.fr       */
+/*   Updated: 2022/11/17 02:16:05 by rbenayou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-int ft_strlen(const char *s)
+int	n_occurencies(char *s, char c, int n)
 {
-	size_t	i;
+	int	i;
+	int	nb;
 
 	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
+	nb = 0;
+	while (s[i] && i < n)
+	{
+		if (s[i] == c)
+			nb++;
 		i++;
-	return (i);
+	}
+	return (nb);
 }
 
 char	*ft_strndup(const char *s, int n)
@@ -29,20 +33,16 @@ char	*ft_strndup(const char *s, int n)
 	size_t	i;
 	size_t	j;
 	char	*cpy;
-	int	quote;
 
-	quote = 0;
 	i = 0;
 	j = 0;
-	if (n == -1 || n > ft_strlen(s))
+	if (n == -1 || n > (int) ft_strlen(s))
 		n = ft_strlen(s);
 	n -= n_occurencies((char *)s, -1, n);
-	if (!n)
-		return (0);
-	cpy = malloc(n + 1);
+	cpy = ft_malloc(n + 1);
 	if (!cpy)
 		return (0);
-	while (i < n && s[i + j])
+	while ((int) i < n && s[i + j])
 	{
 		if (s[i + j] != -1)
 		{
@@ -62,8 +62,8 @@ char	*ft_strdup(const char *s)
 	char	*cpy;
 
 	i = 0;
-	cpy = malloc(ft_strlen(s) + 1);
-	if (!cpy)
+	cpy = ft_malloc(ft_strlen(s) + 1);
+	if (!cpy || !s)
 		return (0);
 	while (s[i])
 	{

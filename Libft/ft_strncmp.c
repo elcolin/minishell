@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecolin <ecolin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:57:14 by ecolin            #+#    #+#             */
-/*   Updated: 2022/10/12 13:47:53 by ecolin           ###   ########.fr       */
+/*   Updated: 2022/11/17 02:16:38 by rbenayou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -27,5 +27,17 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	if (i == n)
 		i--;
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s1 && !s2)
+		return (0);
+	while (s1[i] == s2[i] && s1[i] && s2[i])
+		i++;
 	return (s1[i] - s2[i]);
 }
